@@ -1,0 +1,119 @@
+<Window x:Class="Warehouse.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Warehouse.Controls"
+        Title="Управление складом" Height="620" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#F0F0F0">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Выход" Click="Close_Click"/>
+            </MenuItem>
+            <MenuItem Header="Склады">
+                <MenuItem Header="Новый склад"    Click="AddWarehouse_Click"/>
+                <MenuItem Header="Изменить склад" Click="EditWarehouse_Click"/>
+                <MenuItem Header="Удалить склад"  Click="DeleteWarehouse_Click"/>
+                <Separator/>
+                <MenuItem Header="Импорт товаров" Click="ImportProducts_Click"/>
+            </MenuItem>
+            <MenuItem Header="Товары">
+                <MenuItem Header="Добавить товар"    Click="AddProduct_Click"/>
+                <MenuItem Header="Редактировать"     Click="EditProduct_Click"/>
+                <MenuItem Header="Удалить товар"     Click="DeleteProduct_Click"/>
+            </MenuItem>
+            <MenuItem Header="Накладные">
+                <MenuItem Header="Открыть список накладных" Click="OpenInvoices_Click"/>
+                <Separator/>
+                <MenuItem Header="Создать накладную"  Click="AddInvoice_Click"/>
+                <MenuItem Header="Изменить накладную" Click="EditInvoice_Click"/>
+                <MenuItem Header="Удалить накладную"  Click="DeleteInvoice_Click"/>
+            </MenuItem>
+            <MenuItem Header="Справочники">
+                <MenuItem Header="Организации" Click="OpenOrganizations_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" MinWidth="180"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0" Margin="0">
+
+                <DockPanel.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Новый склад"    Click="AddWarehouse_Click"/>
+                        <MenuItem Header="Изменить склад" Click="EditWarehouse_Click"/>
+                        <MenuItem Header="Удалить склад"  Click="DeleteWarehouse_Click"/>
+                        <Separator/>
+                        <MenuItem Header="Импорт товаров" Click="ImportProducts_Click"/>
+                    </ContextMenu>
+                </DockPanel.ContextMenu>
+
+                <ListView x:Name="listWarehouses"
+                          DockPanel.Dock="Top"
+                          SelectionChanged="listWarehouses_SelectionChanged"
+                          BorderThickness="0,0,0,0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Склады" Width="270"
+                                            DisplayMemberBinding="{Binding WhName}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center"
+                          VerticalAlignment="Stretch" Background="#ABABAB"
+                          ShowsPreview="True"/>
+
+            <DockPanel Grid.Column="2" Margin="4,4,4,4">
+
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,4">
+                    <TextBlock Text="Поиск:" Width="44" DockPanel.Dock="Left" Margin="0,0,4,0"/>
+                    <TextBox x:Name="txtSearch" TextChanged="txtSearch_TextChanged"/>
+                </DockPanel>
+
+                <DataGrid x:Name="gridProducts" AutoGenerateColumns="False"
+                          CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Добавить товар"    Click="AddProduct_Click"/>
+                            <MenuItem Header="Редактировать"     Click="EditProduct_Click"/>
+                            <MenuItem Header="Удалить товар"     Click="DeleteProduct_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Фото" Width="58" CanUserResize="False">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding PhotoPath}" Height="40" Width="52" Stretch="Uniform"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Наименование"  Binding="{Binding Name}"                          Width="2*"/>
+                        <DataGridTextColumn Header="Категория"     Binding="{Binding Category.Name}"                 Width="*"/>
+                        <DataGridTextColumn Header="Производитель" Binding="{Binding Manufacturer.Name}"             Width="*"/>
+                        <DataGridTextColumn Header="Поставщик"     Binding="{Binding Supplier.Name}"                 Width="*"/>
+                        <DataGridTextColumn Header="Цена"          Binding="{Binding Price, StringFormat={}{0:N2}}"  Width="80"/>
+                        <DataGridTextColumn Header="Остаток"       Binding="{Binding Quantity}"                      Width="65"/>
+                        <DataGridTextColumn Header="Скидка %"      Binding="{Binding Discount}"                      Width="65"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+
+        <controls:ContextBarControl x:Name="contextBar"
+                                    Grid.Row="2"
+                                    SelectOrganizationRequested="OpenOrganizations_Click"/>
+    </Grid>
+</Window>

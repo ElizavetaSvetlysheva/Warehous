@@ -1,0 +1,23 @@
+<UserControl x:Class="Warehouse.Controls.ContextBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border Background="#F0F0F0"
+            BorderBrush="#ABABAB" BorderThickness="0,1,0,0"
+            Padding="6,4">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock x:Name="txtOrg"
+                       FontWeight="SemiBold"
+                       Text="Организация не выбрана"/>
+            <TextBlock Text="  |  " Foreground="#ABABAB" Margin="4,0"/>
+            <TextBlock Text="Склад: " FontWeight="SemiBold"/>
+            <TextBlock x:Name="txtWh"
+                       Foreground="#0078D7"
+                       Text="не выбран"/>
+            <TextBlock Text="   " Foreground="#ABABAB"/>
+            <Button x:Name="btnSelectOrg"
+                    Content="Выбрать организацию"
+                    Height="20" Padding="8,0" FontSize="11"
+                    Click="btnSelectOrg_Click"/>
+        </StackPanel>
+    </Border>
+</UserControl>
